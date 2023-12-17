@@ -12,7 +12,6 @@
 #endif
 
 #define CONFIG_DIR "config.ini"
-
 #define STD_BUFFER_LEN 128
 
 typedef struct
