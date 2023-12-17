@@ -1,0 +1,12 @@
+{
+    "name": "Sample Game",
+    "author": "TwinIsland",
+    "link": "https://cirno.me",
+
+    "resource_dir": {
+        "images": "images",
+        "sounds": "sounds",
+        "character": "character",
+        "dialog": "dialog"
+    }
+}

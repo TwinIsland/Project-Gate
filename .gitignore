@@ -1,0 +1,9 @@
+# Ignore Visual Studio Code configuration files
+.vscode/
+
+# Ignore object files and the obj directory
+*.o
+obj/
+
+# nobuild
+nobuild
