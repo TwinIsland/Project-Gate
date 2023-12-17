@@ -10,5 +10,5 @@ server
 engine
 
 # debug exe
-server-debug
-engine-debug
+server_debug
+engine_debug

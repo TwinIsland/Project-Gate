@@ -1,6 +1,6 @@
-# Compiler settings
 CC = gcc
 CFLAGS = -Wall -Wextra
+DEBUG_FLAGS = -DDEBUG
 OBJDIR = ./obj
 
 # Source files
@@ -14,6 +14,7 @@ ENGINE_OBJ = $(ENGINE_SRC:%.c=$(OBJDIR)/%.o)
 # Executable names
 SERVER_EXEC = server
 ENGINE_EXEC = engine
+DEBUG_SERVER_EXEC = server_debug
 
 # Default target
 all: $(SERVER_EXEC) $(ENGINE_EXEC)
@@ -22,8 +23,10 @@ all: $(SERVER_EXEC) $(ENGINE_EXEC)
 $(SERVER_EXEC): $(SERVER_OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
+# Debug build for the server
+server-debug: CFLAGS += $(DEBUG_FLAGS)
 server-debug: $(SERVER_OBJ)
-	$(CC) $(CFLAGS) -DDEBUG $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $(DEBUG_SERVER_EXEC)
 
 # Compile and link the engine
 $(ENGINE_EXEC): $(ENGINE_OBJ)
@@ -36,8 +39,7 @@ $(OBJDIR)/%.o: %.c
 
 # Clean target
 clean:
-	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC)
+	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC) $(DEBUG_SERVER_EXEC)
 	rm -rf $(OBJDIR)
-	rm -rf server-debug
 
-.PHONY: all clean
+.PHONY: all clean server-debug
