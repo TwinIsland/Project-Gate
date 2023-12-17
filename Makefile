@@ -22,6 +22,9 @@ all: $(SERVER_EXEC) $(ENGINE_EXEC)
 $(SERVER_EXEC): $(SERVER_OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
+server-debug: $(SERVER_OBJ)
+	$(CC) $(CFLAGS) -DDEBUG $^ -o $@
+
 # Compile and link the engine
 $(ENGINE_EXEC): $(ENGINE_OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
@@ -35,5 +38,6 @@ $(OBJDIR)/%.o: %.c
 clean:
 	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC)
 	rm -rf $(OBJDIR)
+	rm -rf server-debug
 
 .PHONY: all clean

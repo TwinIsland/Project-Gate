@@ -1,0 +1,40 @@
+body {
+    background-color: #f0f0f0; /* Or any other background you prefer */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.menu {
+    background-color: #fff; /* Background of the menu */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.menu-button {
+    background-color: #4CAF50; /* Button color */
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-button:hover {
+    background-color: #45a049; /* Button hover color */
+}
+
+#exit {
+    background-color: #f44336; /* Different color for exit button */
+}
+
+#exit:hover {
+    background-color: #da190b;
+}

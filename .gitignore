@@ -8,3 +8,7 @@ obj/
 # executable
 server
 engine
+
+# debug exe
+server-debug
+engine-debug
