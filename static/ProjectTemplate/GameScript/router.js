@@ -1,7 +1,4 @@
 
-/*
-    single page app utils
-*/
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
@@ -11,9 +8,12 @@ const route = (event) => {
 
 const routes = {
     404: "/pages/404.html",
-    "/": "/pages/index.html",
-    "/about": "/pages/about.html",
-    "/upload": "/pages/upload.html",
+    "/": "/index.html",
+
+    "/start": "/GamePage/start.html",
+    "/load": "/GamePage/load.html",
+    "/gallery": "/GamePage/gallery.html",
+    "/about": "/GamePage/about.html",
 };
 
 const handleLocation = async () => {
@@ -21,10 +21,6 @@ const handleLocation = async () => {
     const route = routes[path] || routes[404];
     const html = await fetch(route).then((data) => data.text());
     document.getElementById("main-page").innerHTML = html;
-
-    if (path == '/upload') {
-        upload_reload()
-    }
 };
 
 window.onpopstate = handleLocation;

@@ -1,7 +1,3 @@
-
-/*
-    single page app utils
-*/
 const route = (event) => {
     event = event || window.event;
     event.preventDefault();
@@ -12,8 +8,6 @@ const route = (event) => {
 const routes = {
     404: "/pages/404.html",
     "/": "/pages/index.html",
-    "/about": "/pages/about.html",
-    "/upload": "/pages/upload.html",
 };
 
 const handleLocation = async () => {

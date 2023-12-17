@@ -1,48 +1,39 @@
-# Compiler and flags
+# Compiler settings
 CC = gcc
-CFLAGS = -I./lib/inih-r57 -Wall -Wextra
-
-# Directory for object files
-OBJDIR = obj
-
-# Object files with directory prefix
-OBJ1 = $(OBJDIR)/server.o $(OBJDIR)/ini.o
-OBJ2 = $(OBJDIR)/engine.o $(OBJDIR)/ini.o
+CFLAGS = -Wall -Wextra
+OBJDIR = ./obj
 
 # Source files
-SRC1 = server.c
-SRC2 = engine.c
-SRC_LIB = lib/inih-r57/ini.c
+SERVER_SRC = server.c lib/inih-r57/ini.c lib/mongoose-7.12/mongoose.c
+ENGINE_SRC = engine.c lib/inih-r57/ini.c
+
+# Object files
+SERVER_OBJ = $(SERVER_SRC:%.c=$(OBJDIR)/%.o)
+ENGINE_OBJ = $(ENGINE_SRC:%.c=$(OBJDIR)/%.o)
 
 # Executable names
-EXE1 = server
-EXE2 = engine
+SERVER_EXEC = server
+ENGINE_EXEC = engine
 
 # Default target
-all: $(EXE1) $(EXE2)
+all: $(SERVER_EXEC) $(ENGINE_EXEC)
 
-# Server executable
-$(EXE1): $(OBJ1)
-	$(CC) -o $@ $^ $(CFLAGS)
+# Compile and link the server
+$(SERVER_EXEC): $(SERVER_OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Engine executable
-$(EXE2): $(OBJ2)
-	$(CC) -o $@ $^ $(CFLAGS)
+# Compile and link the engine
+$(ENGINE_EXEC): $(ENGINE_OBJ)
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Rule to compile object files
+# Rule to make object files
 $(OBJDIR)/%.o: %.c
-	@mkdir -p $(OBJDIR)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR)/ini.o: $(SRC_LIB)
-	@mkdir -p $(OBJDIR)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-# Dependencies
-$(OBJDIR)/server.o: $(SRC1) $(SRC_LIB)
-$(OBJDIR)/engine.o: $(SRC2) $(SRC_LIB)
-$(OBJDIR)/ini.o: $(SRC_LIB)
-
-# Clean up
+# Clean target
 clean:
-	rm -rf $(OBJDIR) $(EXE1) $(EXE2)
+	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC)
+	rm -rf $(OBJDIR)
+
+.PHONY: all clean
