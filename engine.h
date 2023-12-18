@@ -13,14 +13,23 @@
 #define debug(msg, ...)
 #endif
 
+#ifdef TEST
+#define test(msg, ...)                             \
+    do                                              \
+    {                                               \
+        printf("(TEST) " msg "\n", ##__VA_ARGS__); \
+    } while (0)
+#else
+#define test(msg, ...)
+#endif
+
 #define CONFIG_DIR "config.ini"
 
-#define RES_BUFFER_LEN          512
-#define RES_BUFFER_LEN_SM       8
+#define RES_BUFFER_LEN          256
 #define ACTION_BUFFER_LEN       64
 
-#define STD_BUFFER_LEN      128
-#define GENE_LEN            16
+#define STD_BUFFER_LEN          128
+#define GENE_LEN                16
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,6 +50,7 @@ typedef struct
     const char *app_link;
     const char *app_root;
     const char *app_entry;
+    const char *meta_entry;
 } configuration;
 
 // Frame relevant function
@@ -62,6 +72,25 @@ typedef struct Result_t
     char msg[STD_BUFFER_LEN];
     void *ptr;
 } Result;
+
+#define print_frame(frame) printf("ID: %d, Prev ID: %d, Next ID: %d, Action: %s, Gene: 0x%X, Res: %s\n", \
+                                  (frame).id, (frame).prev_id, (frame).next_id, \
+                                  (frame).action, (frame).gene, (frame).res)
+
+Result create_frame();
+Result append_frame(char *action, char *res, Gene gene);
+Result insert_frame(int prev_id, char *action, char *res, Gene gene);
+Result delete_frame(int frame_id);
+
+Result serialize_all();
+Result deserialize_all();
+
+void initialize_engine();
+void exit_engine();
+
+
+#define print_result(result) \
+    printf("status = {\n\tis_ok: %d\n\tmsg: %s\n\tptr: %p\n}\n", result.is_ok, result.msg, result.ptr);
 
 // Utils
 /*

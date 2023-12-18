@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
 DEBUG_FLAGS = -DDEBUG
+TEST_FLAGS = -DTEST
 OBJDIR = ./obj
 
 # Source files
@@ -15,6 +16,8 @@ ENGINE_OBJ = $(ENGINE_SRC:%.c=$(OBJDIR)/%.o)
 SERVER_EXEC = server
 ENGINE_EXEC = engine
 DEBUG_SERVER_EXEC = server_debug
+DEBUG_ENGINE_EXEC = engine_debug
+TEST_ENGINE_EXEC = engine_test
 
 # Default target
 all: $(SERVER_EXEC) $(ENGINE_EXEC)
@@ -28,6 +31,16 @@ server-debug: CFLAGS += $(DEBUG_FLAGS)
 server-debug: $(SERVER_OBJ)
 	$(CC) $(CFLAGS) $^ -o $(DEBUG_SERVER_EXEC)
 
+# Debug build for the engine
+engine-debug: CFLAGS += $(DEBUG_FLAGS)
+engine-debug: $(ENGINE_OBJ)
+	$(CC) $(CFLAGS) $^ -o $(DEBUG_ENGINE_EXEC)
+
+# Test build for the engine 
+engine-test: CFLAGS += $(TEST_FLAGS) 
+engine-test: $(ENGINE_OBJ)
+	$(CC) $(CFLAGS) $^ -o $(TEST_ENGINE_EXEC)
+
 # Compile and link the engine
 $(ENGINE_EXEC): $(ENGINE_OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
@@ -39,7 +52,7 @@ $(OBJDIR)/%.o: %.c
 
 # Clean target
 clean:
-	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC) $(DEBUG_SERVER_EXEC)
+	rm -f $(SERVER_OBJ) $(ENGINE_OBJ) $(SERVER_EXEC) $(ENGINE_EXEC) $(DEBUG_SERVER_EXEC) $(DEBUG_ENGINE_EXEC) $(TEST_ENGINE_EXEC)
 	rm -rf $(OBJDIR)
 
 .PHONY: all clean server-debug
